@@ -11,7 +11,7 @@ function Error(error) {
 Error.prototype = {
 
 	getData: function() {
-		return this._error.data;
+		return this._error.data.error;
 	},
 
 	getCode: function() {
