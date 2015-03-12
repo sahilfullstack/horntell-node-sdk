@@ -1,0 +1,22 @@
+{
+  "name": "horntell-node",
+  "version": "0.0.1",
+  "description": "The Node.js SDK of Horntell",
+  "keywords": [
+    "horntell",
+    "node"
+  ],
+  "homepage": "http://horntell.com",
+  "author": {
+    "name": "Mohit Mamoria",
+    "email": "mohit@owlgrin.com",
+    "url": "http://mohitmamoria.com"
+  },
+  "main": "src/Horntell/horntell.js",
+  "devDependencies": {
+  },
+  "dependencies": {
+    "bluebird": "^2.9.6",
+    "restler": "3.2.2"
+  }
+}
