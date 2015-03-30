@@ -10,6 +10,16 @@ var resources = {
 	Horn: require('./Horn'),
 	Campaign: require('./Campaign'),
 	Activity: require('./Activity')
+},
+
+errors = {
+	AuthenticationError: require('./Errors/AuthenticationError'),
+	Error: require('./Errors/Error'),
+	ForbiddenError: require('./Errors/ForbiddenError'),
+	InvalidRequestError: require('./Errors/InvalidRequestError'),
+	NetworkError: require('./Errors/NetworkError'),
+	NotFoundError: require('./Errors/NotFoundError'),
+	ServiceError: require('./Errors/ServiceError')
 };
 
 function Horntell(key, secret, version) {
@@ -25,7 +35,10 @@ function Horntell(key, secret, version) {
 		version: Horntell.VERSION
 	};
 
+	this.errors = {};
+
 	this._prepResources();
+	this._prepErrors();
 	this.setCredentials(key, secret);
 	this.setApiVersion(version);
 }
@@ -34,10 +47,6 @@ Horntell.prototype = {
 
 	setBase: function(base) {
 		this._setApiField('base', base);
-	},
-
-	setPort: function(port) {
-		this._setApiField('port', port);
 	},
 
 	setApiVersion: function(version) {
@@ -53,6 +62,14 @@ Horntell.prototype = {
 		}
 	},
 
+	getCredentials: function()
+	{
+		return {
+			key: this._getApiField(key),
+			secret: this._getApiField(secret)
+		}
+	},
+
 	setKey: function(key) {
 		if(key)
 			this._setApiField('key', key);
@@ -63,33 +80,42 @@ Horntell.prototype = {
 			this._setApiField('secret', secret);
 	},
 
-	// setTimeout: function(timeout) {
-	// 	this._setApiField(
-	// 		'timeout',
-	// 		timeout == null ? Stripe.DEFAULT_TIMEOUT : timeout
-	// 		);
-	// },
+	getBase: function(base) {
+		return this._getApiField(base);
+	},
 
-	// setHttpAgent: function(agent) {
-	// 	this._setApiField('agent', agent);
-	// },
+	getApiVersion: function(version) {
+		return this._getApiField(version);
+	},
+
+	getKey: function(key) {
+		return this._getApiField(key);
+	},
+
+	getSecret: function(secret) {
+		return this._getApiField(secret);
+	},
 
 	_setApiField: function(key, value) {
 		this._api[key] = value;
 	},
 
-	getApiField: function(key) {
+	_getApiField: function(key) {
 		return this._api[key];
 	},
 
 	_prepResources: function() {
-
 		for (var name in resources) {
 			this[
 			name[0].toLowerCase() + name.substring(1)
 			] = new resources[name](this);
 		}
+	},
 
+	_prepErrors: function() {
+		for (var name in errors) {
+			this.errors[name] = errors[name];
+		}
 	}
 
 };

@@ -2,16 +2,7 @@
 
 var Promise = require('bluebird'),
 REST = require('restler'),
-Response = require('./Response'),
-
-Error = require('../Errors/Error'),
-InvalidRequestError = require('../Errors/InvalidRequestError'),
-NotFoundError = require('../Errors/NotFoundError'),
-AuthenticationError = require('../Errors/AuthenticationError'),
-ForbiddenError = require('../Errors/ForbiddenError'),
-NetworkError = require('../Errors/NetworkError'),
-ServiceError = require('../Errors/ServiceError');
-
+Response = require('./Response');
 
 function Request(horntell) {
 
@@ -25,15 +16,15 @@ Request.prototype = {
 
 	send: function(method, path, data, callback) {
 
-		var url = this._horntell._api.base + path,
+		var url = this._horntell.getBase() + path,
 		options = {
 			data: data,
 			headers: {
-				'Accept' : 'application/vnd.horntell.' + this._horntell._api.version +'+json',
+				'Accept' : 'application/vnd.horntell.' + this._horntell.getApiVersion() +'+json',
 				'Content-Type' : 'application/json'
 			},
-			username: this._horntell._api.key,
-			password: this._horntell._api.secret
+			username: this._horntell.getKey(),
+			password: this._horntell.getSecret()
 		};
 
 		switch(method) {
@@ -112,23 +103,23 @@ Request.prototype = {
 	_errorHandler: function(response, raw) {
 		switch(raw.statusCode) {
 			case 400:
-				return new InvalidRequestError({code: raw.statusCode, data: response});
+				return new this._horntell.errors.InvalidRequestError({code: raw.statusCode, data: response});
 				break;
 
 			case 401:
-				return new AuthenticationError({code: raw.statusCode, data: response});
+				return new this._horntell.errors.AuthenticationError({code: raw.statusCode, data: response});
 				break;
 
 			case 403:
-				return new ForbiddenError({code: raw.statusCode, data: response});
+				return new this._horntell.errors.ForbiddenError({code: raw.statusCode, data: response});
 				break;
 
 			case 404:
-				return new NotFoundError({code: raw.statusCode, data: response});
+				return new this._horntell.errors.NotFoundError({code: raw.statusCode, data: response});
 				break;
 
 			case 500:
-				return new ServiceError({code: raw.statusCode, data: response});
+				return new this._horntell.errors.ServiceError({code: raw.statusCode, data: response});
 				break;
 
 			default:
@@ -140,15 +131,15 @@ Request.prototype = {
 
 		switch(floor(raw.statusCode/100)) {
 			case 4:
-				return new InvalidRequestError({code: raw.statusCode, data: response});
+				return new this._horntell.errors.InvalidRequestError({code: raw.statusCode, data: response});
 				break;
 
 			case 5:
-				return new ServiceError({code: raw.statusCode, data: response});
+				return new this._horntell.errors.ServiceError({code: raw.statusCode, data: response});
 				break;
 
 			default:
-				return new Error({code: raw.statusCode, data: response});
+				return new this._horntell.errors.Error({code: raw.statusCode, data: response});
 		}
 	},
 
