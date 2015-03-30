@@ -20,7 +20,7 @@ Request.prototype = {
 		options = {
 			data: data,
 			headers: {
-				'Accept' : 'application/vnd.horntell.' + this._horntell.getApiVersion() +'+json',
+				'Accept' : 'application/vnd.horntell.' + this._horntell.getVersion() +'+json',
 				'Content-Type' : 'application/json'
 			},
 			username: this._horntell.getKey(),
@@ -85,7 +85,7 @@ Request.prototype = {
 		var deferred = this._createDeferred(callback);
 
 		if(response instanceof Error){
-			deferred.reject(new NetworkError({code: null, data: {message: 'Could not connect to Horntell. Please check your network connection and try again. If the problem persists, please get in touch with us at hello@horntell.com.', type: 'network_error', code: null}}));
+			deferred.reject(new this._horntell.errors.NetworkError({code: null, data: {message: 'Could not connect to Horntell. Please check your network connection and try again. If the problem persists, please get in touch with us at hello@horntell.com.', type: 'network_error', code: null}}));
 		}
 
 		if(raw.statusCode == 204) {

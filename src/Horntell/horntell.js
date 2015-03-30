@@ -40,7 +40,7 @@ function Horntell(key, secret, version) {
 	this._prepResources();
 	this._prepErrors();
 	this.setCredentials(key, secret);
-	this.setApiVersion(version);
+	this.setVersion(version);
 }
 
 Horntell.prototype = {
@@ -49,7 +49,7 @@ Horntell.prototype = {
 		this._setApiField('base', base);
 	},
 
-	setApiVersion: function(version) {
+	setVersion: function(version) {
 		if (version) {
 			this._setApiField('version', version);
 		}
@@ -65,8 +65,8 @@ Horntell.prototype = {
 	getCredentials: function()
 	{
 		return {
-			key: this._getApiField(key),
-			secret: this._getApiField(secret)
+			key: this._getApiField('key'),
+			secret: this._getApiField('secret')
 		}
 	},
 
@@ -80,20 +80,20 @@ Horntell.prototype = {
 			this._setApiField('secret', secret);
 	},
 
-	getBase: function(base) {
-		return this._getApiField(base);
+	getBase: function() {
+		return this._getApiField('base');
 	},
 
-	getApiVersion: function(version) {
-		return this._getApiField(version);
+	getVersion: function() {
+		return this._getApiField('version');
 	},
 
-	getKey: function(key) {
-		return this._getApiField(key);
+	getKey: function() {
+		return this._getApiField('key');
 	},
 
-	getSecret: function(secret) {
-		return this._getApiField(secret);
+	getSecret: function() {
+		return this._getApiField('secret');
 	},
 
 	_setApiField: function(key, value) {
