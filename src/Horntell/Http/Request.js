@@ -16,7 +16,7 @@ Request.prototype = {
 
 	send: function(method, path, data, callback) {
 
-		var url = this._horntell.getBase() + path,
+		var url = this._horntell.app.getBase() + path,
 		options = this._getOptions(data);
 
 		var deferred = this._createDeferred(callback);
@@ -154,11 +154,11 @@ Request.prototype = {
 		return {
 			data: data,
 			headers: {
-				'Accept' : 'application/vnd.horntell.' + this._horntell.getVersion() +'+json',
+				'Accept' : 'application/vnd.horntell.' + this._horntell.app.getVersion() +'+json',
 				'Content-Type' : 'application/json'
 			},
-			username: this._horntell.getKey(),
-			password: this._horntell.getSecret()
+			username: this._horntell.app.getKey(),
+			password: this._horntell.app.getSecret()
 		};
 	}
 }

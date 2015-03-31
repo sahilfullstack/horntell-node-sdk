@@ -1,15 +1,9 @@
 'use strict';
 
-Horntell.BASE = 'https://api.horntell.com';
-Horntell.VERSION = 'v1';
-Horntell.KEY = null;
-Horntell.SECRET = null;
-
 var resources = {
 	Profile: require('./Profile'),
 	Horn: require('./Horn'),
-	Campaign: require('./Campaign'),
-	Activity: require('./Activity')
+	Campaign: require('./Campaign')
 },
 
 errors = {
@@ -22,87 +16,21 @@ errors = {
 	ServiceError: require('./Errors/ServiceError')
 };
 
-function Horntell(key, secret, version) {
+function Horntell() {
 
-	if (!(this instanceof Horntell)) {
-		return new Horntell(key, secret);
+	if ( ! (this instanceof Horntell)) {
+		return new Horntell();
 	}
 
-	this._api = {
-		key: Horntell.KEY,
-		secret: Horntell.SECRET,
-		base: Horntell.BASE,
-		version: Horntell.VERSION
-	};
+	this.app = new require('./App')();
 
 	this.errors = {};
 
 	this._prepResources();
 	this._prepErrors();
-	this.setCredentials(key, secret);
-	this.setVersion(version);
 }
 
 Horntell.prototype = {
-
-	setBase: function(base) {
-		this._setApiField('base', base);
-	},
-
-	setVersion: function(version) {
-		if (version) {
-			this._setApiField('version', version);
-		}
-	},
-
-	setCredentials: function(key, secret) {
-		if (key, secret) {
-			this._setApiField('key', key);
-			this._setApiField('secret', secret);
-		}
-	},
-
-	getCredentials: function()
-	{
-		return {
-			key: this._getApiField('key'),
-			secret: this._getApiField('secret')
-		}
-	},
-
-	setKey: function(key) {
-		if(key)
-			this._setApiField('key', key);
-	},
-
-	setSecret: function(secret) {
-		if(secret)
-			this._setApiField('secret', secret);
-	},
-
-	getBase: function() {
-		return this._getApiField('base');
-	},
-
-	getVersion: function() {
-		return this._getApiField('version');
-	},
-
-	getKey: function() {
-		return this._getApiField('key');
-	},
-
-	getSecret: function() {
-		return this._getApiField('secret');
-	},
-
-	_setApiField: function(key, value) {
-		this._api[key] = value;
-	},
-
-	_getApiField: function(key) {
-		return this._api[key];
-	},
 
 	_prepResources: function() {
 		for (var name in resources) {
