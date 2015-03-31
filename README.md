@@ -14,7 +14,7 @@ You can install the SDK using NPM. Add this to your `package.json` file.
 ```json
 {
 	"dependencies": {
-		"horntell": "0.1.x"
+		"horntell": "0.2.x"
 	}
 }
 ```
@@ -32,16 +32,15 @@ You need to `init`ialize the SDK with the app's key and secret, which you can fi
 ```js
 'use strict';
 
-var horntell = require('horntell');
+var Horntell = require('horntell');
+Horntell.app.init('YOUR_APP_KEY', 'YOUR_APP_SECRET');
 
-horntell.app.init('YOUR_APP_KEY', 'YOUR_APP_SECRET');
-
-horntell.profile.create({
-	uid : '1337',
-	first_name : 'John',
-	last_name : 'Doe',
-	signedup_at : 1383350400
-});
+Horntell.profile.create({
+	uid: '1337',
+	first_name: 'John',
+	last_name: 'Doe',
+	signedup_at: 1383350400
+}).then(successCallback, errorCallback);
 ```
 
 ## Documentation
