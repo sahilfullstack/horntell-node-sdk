@@ -1,6 +1,7 @@
 'use strict';
 
 var resources = {
+	App: require('./App'),
 	Profile: require('./Profile'),
 	Horn: require('./Horn'),
 	Campaign: require('./Campaign')
@@ -21,8 +22,6 @@ function Horntell() {
 	if ( ! (this instanceof Horntell)) {
 		return new Horntell();
 	}
-
-	this.app = new require('./App')();
 
 	this.errors = {};
 
@@ -48,4 +47,4 @@ Horntell.prototype = {
 
 };
 
-module.exports = Horntell;
+module.exports = Horntell();
