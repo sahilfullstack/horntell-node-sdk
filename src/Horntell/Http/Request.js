@@ -29,7 +29,7 @@ Request.prototype = {
 
 		switch(method) {
 			case 'GET':
-				this.get(url, options, callback);
+				return this.get(url, options, callback);
 				break;
 
 			case 'POST':
@@ -51,10 +51,12 @@ Request.prototype = {
 
 	get: function(url, options, callback) {
 		var self = this;
-
+		
+		var deferred = this._createDeferred(callback);
 		REST.get(url, options).on('complete', function(response, raw) {
-			return self._responseHandler(response, raw, callback);
+			self._responseHandler(response, raw, deferred);
 		});
+		return deferred.promise;
 	},
 
 	post: function(url, options, callback) {
@@ -81,8 +83,7 @@ Request.prototype = {
 		});
 	},
 
-	_responseHandler: function(response, raw, callback) {
-		var deferred = this._createDeferred(callback);
+	_responseHandler: function(response, raw, deferred) {
 
 		if(response instanceof Error){
 			deferred.reject(new this._horntell.errors.NetworkError({code: null, data: {message: 'Could not connect to Horntell. Please check your network connection and try again. If the problem persists, please get in touch with us at hello@horntell.com.', type: 'network_error', code: null}}));
