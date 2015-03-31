@@ -45,4 +45,4 @@ Horntell.profile.create({
 
 ## Documentation
 
-Please see [http://docs.horntell.com/api](http://docs.horntell.com/api/?node) for up-to-date documentation.
+Please see [http://docs.horntell.com/api](http://docs.horntell.com/api/?javascript) for up-to-date documentation.
