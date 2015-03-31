@@ -11,7 +11,7 @@ function Error(error) {
 Error.prototype = {
 
 	getMessage: function() {
-		return this._error.data.error.message;
+		return this._error.message;
 	},
 
 	getStatusCode: function() {
@@ -19,7 +19,7 @@ Error.prototype = {
 	},
 
 	getType: function() {
-		return this._error.data.error.type;
+		return this._error.type;
 	}
 }
 
