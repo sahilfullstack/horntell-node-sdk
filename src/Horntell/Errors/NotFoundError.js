@@ -1,6 +1,6 @@
 'use strict';
 
-var Error = require('./Error'),
+var InvalidRequestError = require('./InvalidRequestError'),
 Util = require('util');
 
 function NotFoundError(error) {
@@ -11,6 +11,6 @@ function NotFoundError(error) {
 	this._error = error
 }
 
-Util.inherits(NotFoundError, Error);
+Util.inherits(NotFoundError, InvalidRequestError);
 
 module.exports = NotFoundError;

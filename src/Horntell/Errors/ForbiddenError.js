@@ -1,6 +1,6 @@
 'use strict';
 
-var Error = require('./Error'),
+var InvalidRequestError = require('./InvalidRequestError'),
 Util = require('util');
 
 function ForbiddenError(error) {
@@ -11,6 +11,6 @@ function ForbiddenError(error) {
 	this._error = error
 }
 
-Util.inherits(ForbiddenError, Error);
+Util.inherits(ForbiddenError, InvalidRequestError);
 
 module.exports = ForbiddenError;
