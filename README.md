@@ -1,5 +1,5 @@
 Horntell SDK for NodeJS
-====================
+=======================
 
 This SDK allows you to easily integrate Horntell in your NodeJS applications.
 
@@ -14,7 +14,7 @@ You can install the SDK using NPM. Add this to your `package.json` file.
 ```json
 {
 	"dependencies": {
-		"horntell": "0.0.1"
+		"horntell": "0.1.x"
 	}
 }
 ```
