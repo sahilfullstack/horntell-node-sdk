@@ -17,15 +17,7 @@ Request.prototype = {
 	send: function(method, path, data, callback) {
 
 		var url = this._horntell.getBase() + path,
-		options = {
-			data: data,
-			headers: {
-				'Accept' : 'application/vnd.horntell.' + this._horntell.getVersion() +'+json',
-				'Content-Type' : 'application/json'
-			},
-			username: this._horntell.getKey(),
-			password: this._horntell.getSecret()
-		};
+		options = this._getOptions(data);
 
 		var deferred = this._createDeferred(callback);
 		switch(method) {
@@ -55,7 +47,7 @@ Request.prototype = {
 		var self = this;
 
 		REST.get(url, options).on('complete', function(response, raw) {
-			self._responseHandler(response, raw, deferred);
+			self._requestHandler(response, raw, deferred);
 		});
 	},
 
@@ -63,7 +55,7 @@ Request.prototype = {
 		var self = this;
 
 		REST.post(url, options).on('complete', function(response, raw) {
-			self._responseHandler(response, raw, deferred);
+			self._requestHandler(response, raw, deferred);
 		});
 	},
 
@@ -71,7 +63,7 @@ Request.prototype = {
 		var self = this;
 
 		REST.put(url, options).on('complete', function(response, raw) {
-			self._responseHandler(response, raw, deferred);
+			self._requestHandler(response, raw, deferred);
 		});
 	},
 
@@ -79,47 +71,56 @@ Request.prototype = {
 		var self = this;
 
 		REST.del(url, options).on('complete', function(response, raw) {
-			self._responseHandler(response, raw, deferred);
+			self._requestHandler(response, raw, deferred);
 		});
 	},
 
-	_responseHandler: function(response, raw, deferred) {
-		if(response instanceof Error){
-			deferred.reject(new this._horntell.errors.NetworkError({code: null, data: {message: 'Could not connect to Horntell. Please check your network connection and try again. If the problem persists, please get in touch with us at hello@horntell.com.', type: 'network_error', code: null}}));
-		}
-
-		if(raw.statusCode == 204) {
-			deferred.resolve(Response({code: raw.statusCode, data: null}));
+	_requestHandler: function(response, raw, deferred) {
+		if(response == null || response.data) {
+			deferred.resolve(this._responseHandler(response, raw));
 		} else {
-			if(response.data)
-				deferred.resolve(Response({code: raw.statusCode, data: response.data}));
-			else if(response.error)
-				deferred.reject(this._errorHandler(response, raw));
+			deferred.reject(this._errorHandler(response, raw));
 		}
 
 		return deferred.promise;
 	},
 
+	_responseHandler: function(response, raw) {
+
+		if(raw.statusCode == 204) {
+			//When response status code is 204 and null received in response, eg horn created, campaign triggered.
+			return Response(raw);
+		} else {
+			//When data received in response, eg. profile created or updated.
+			return Response(raw);
+		}
+	},
+
 	_errorHandler: function(response, raw) {
+
+		// In case of connection aborted, parse, encoding, decoding failed or some other unhandled errors.
+		if(response.code === 'ENOTFOUND')
+			return new this._horntell.errors.NetworkError;
+
 		switch(raw.statusCode) {
 			case 400:
-				return new this._horntell.errors.InvalidRequestError({code: raw.statusCode, data: response});
+				return new this._horntell.errors.InvalidRequestError({statusCode: raw.statusCode, data:response});
 				break;
 
 			case 401:
-				return new this._horntell.errors.AuthenticationError({code: raw.statusCode, data: response});
+				return new this._horntell.errors.AuthenticationError({statusCode: raw.statusCode, data:response});
 				break;
 
 			case 403:
-				return new this._horntell.errors.ForbiddenError({code: raw.statusCode, data: response});
+				return new this._horntell.errors.ForbiddenError({statusCode: raw.statusCode, data:response});
 				break;
 
 			case 404:
-				return new this._horntell.errors.NotFoundError({code: raw.statusCode, data: response});
+				return new this._horntell.errors.NotFoundError({statusCode: raw.statusCode, data:response});
 				break;
 
 			case 500:
-				return new this._horntell.errors.ServiceError({code: raw.statusCode, data: response});
+				return new this._horntell.errors.ServiceError({statusCode: raw.statusCode, data:response});
 				break;
 
 			default:
@@ -129,17 +130,17 @@ Request.prototype = {
 
 	_handleUnknownError: function(response, raw) {
 
-		switch(floor(raw.statusCode/100)) {
+		switch(Math.floor(raw.statusCode/100)) {
 			case 4:
-				return new this._horntell.errors.InvalidRequestError({code: raw.statusCode, data: response});
+				return new this._horntell.errors.InvalidRequestError({statusCode: raw.statusCode, data:response});
 				break;
 
 			case 5:
-				return new this._horntell.errors.ServiceError({code: raw.statusCode, data: response});
+				return new this._horntell.errors.ServiceError({statusCode: raw.statusCode, data:response});
 				break;
 
 			default:
-				return new this._horntell.errors.Error({code: raw.statusCode, data: response});
+				return new this._horntell.errors.Error({statusCode: raw.statusCode, data:response});
 		}
 	},
 
@@ -157,6 +158,19 @@ Request.prototype = {
 		}
 
 		return deferred;
+	},
+
+	_getOptions: function(data) {
+
+		return {
+			data: data,
+			headers: {
+				'Accept' : 'application/vnd.horntell.' + this._horntell.getVersion() +'+json',
+				'Content-Type' : 'application/json'
+			},
+			username: this._horntell.getKey(),
+			password: this._horntell.getSecret()
+		};
 	}
 }
 

@@ -10,12 +10,16 @@ function Response(response) {
 
 Response.prototype = {
 
-	getData: function() {
-		return this._response.data;
+	getBody: function() {
+		return JSON.parse(this._response.rawEncoded);
 	},
 
-	getCode: function() {
-		return this._response.code;
+	getStatusCode: function() {
+		return this._response.statusCode;
+	},
+
+	getOriginal: function() {
+		return this._response;
 	}
 }
 

@@ -10,12 +10,16 @@ function Error(error) {
 
 Error.prototype = {
 
-	getData: function() {
-		return this._error.data.error;
+	getMessage: function() {
+		return this._error.data.error.message;
 	},
 
-	getCode: function() {
-		return this._error.code;
+	getStatusCode: function() {
+		return this._error.statusCode;
+	},
+
+	getType: function() {
+		return this._error.data.error.type;
 	}
 }
 
