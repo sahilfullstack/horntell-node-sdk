@@ -3,12 +3,14 @@
 var InvalidRequestError = require('./InvalidRequestError'),
 Util = require('util');
 
-function NotFoundError(error) {
+function NotFoundError(message, code, type) {
 
 	if( ! (this instanceof NotFoundError))
-		return new NotFoundError(error);
+		return new NotFoundError(message, code, type);
 
-	this._error = error
+	this._message = message;
+	this._code = code;
+	this._type = type;
 }
 
 Util.inherits(NotFoundError, InvalidRequestError);

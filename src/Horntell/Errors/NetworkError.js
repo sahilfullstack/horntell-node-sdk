@@ -3,21 +3,23 @@
 var Error = require('./Error'),
 Util = require('util');
 
-function NetworkError(error) {
+function NetworkError(message, code, type) {
 
 	if( ! (this instanceof NetworkError))
-		return new NetworkError(error);
+		return new NetworkError(message, code, type);
 
-	if(error === undefined) {
-		error = {
-			statusCode: null,
-			message: 'Could not connect to Horntell. Please check your network connection and try again. If the problem persists, please get in touch with us at hello@horntell.com',
-			type: 'network_error'
-		};
+	if(code === undefined)
+		code = null;
 
-	}
+	if(message === undefined)
+		message = 'Could not connect to Horntell. Please check your network connection and try again. If the problem persists, please get in touch with us at hello@horntell.com';
 
-	this._error = error
+	if(type === undefined)
+		type = 'network_error';
+
+	this._message = message;
+	this._code = code;
+	this._type = type;
 }
 
 Util.inherits(NetworkError, Error);

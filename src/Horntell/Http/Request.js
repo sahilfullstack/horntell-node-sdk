@@ -104,23 +104,23 @@ Request.prototype = {
 
 		switch(raw.statusCode) {
 			case 400:
-				return new this._horntell.errors.InvalidRequestError({statusCode: response.error.code, message: response.error.message, type: response.error.type});
+				return new this._horntell.errors.InvalidRequestError(response.error.message, response.error.code, response.error.type);
 				break;
 
 			case 401:
-				return new this._horntell.errors.AuthenticationError({statusCode: response.error.code, message: response.error.message, type: response.error.type});
+				return new this._horntell.errors.AuthenticationError(response.error.message, response.error.code, response.error.type);
 				break;
 
 			case 403:
-				return new this._horntell.errors.ForbiddenError({statusCode: response.error.code, message: response.error.message, type: response.error.type});
+				return new this._horntell.errors.ForbiddenError(response.error.message, response.error.code, response.error.type);
 				break;
 
 			case 404:
-				return new this._horntell.errors.NotFoundError({statusCode: response.error.code, message: response.error.message, type: response.error.type});
+				return new this._horntell.errors.NotFoundError(response.error.message, response.error.code, response.error.type);
 				break;
 
 			case 500:
-				return new this._horntell.errors.ServiceError({statusCode: response.error.code, message: response.error.message, type: response.error.type});
+				return new this._horntell.errors.ServiceError(response.error.message, response.error.code, response.error.type);
 				break;
 
 			default:
@@ -132,15 +132,15 @@ Request.prototype = {
 
 		switch(Math.floor(raw.statusCode/100)) {
 			case 4:
-				return new this._horntell.errors.InvalidRequestError({statusCode: response.error.code, message: response.error.message, type: response.error.type});
+				return new this._horntell.errors.InvalidRequestError(response.error.message, response.error.code, response.error.type);
 				break;
 
 			case 5:
-				return new this._horntell.errors.ServiceError({statusCode: response.error.code, message: response.error.message, type: response.error.type});
+				return new this._horntell.errors.ServiceError(response.error.message, response.error.code, response.error.type);
 				break;
 
 			default:
-				return new this._horntell.errors.Error({statusCode: response.error.code, message: response.error.message, type: response.error.type});
+				return new this._horntell.errors.Error(response.error.message, response.error.code, response.error.type);
 		}
 	},
 

@@ -3,12 +3,14 @@
 var Error = require('./Error'),
 Util = require('util');
 
-function InvalidRequestError(error) {
+function InvalidRequestError(message, code, type) {
 
 	if( ! (this instanceof InvalidRequestError))
-		return new InvalidRequestError(error);
+		return new InvalidRequestError(message, code, type);
 
-	this._error = error
+	this._message = message;
+	this._code = code;
+	this._type = type;
 }
 
 Util.inherits(InvalidRequestError, Error);

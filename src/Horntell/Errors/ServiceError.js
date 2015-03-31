@@ -3,12 +3,14 @@
 var Error = require('./Error'),
 Util = require('util');
 
-function ServiceError(error) {
+function ServiceError(message, code, type) {
 
 	if( ! (this instanceof ServiceError))
-		return new ServiceError(error);
+		return new ServiceError(message, code, type);
 
-	this._error = error
+	this._message = message;
+	this._code = code;
+	this._type = type;
 }
 
 Util.inherits(ServiceError, Error);

@@ -1,25 +1,27 @@
 'use strict';
 
-function Error(error) {
+function Error(message, code, type) {
 
 	if( ! (this instanceof Error))
-		return new Error(error);
+		return new Error(message, code, type);
 
-	this._error = error;
+	this._message = message;
+	this._code = code;
+	this._type = type;
 }
 
 Error.prototype = {
 
 	getMessage: function() {
-		return this._error.message;
+		return this._message;
 	},
 
-	getStatusCode: function() {
-		return this._error.statusCode;
+	getCode: function() {
+		return this._statusCode;
 	},
 
 	getType: function() {
-		return this._error.type;
+		return this._type;
 	}
 }
 
