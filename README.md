@@ -32,7 +32,7 @@ You need to `init`ialize the SDK with the app's key and secret, which you can fi
 ```js
 'use strict';
 
-var horntell = require('horntell')();
+var horntell = require('horntell');
 
 horntell.app.init('YOUR_APP_KEY', 'YOUR_APP_SECRET');
 
