@@ -17,7 +17,7 @@ Error.prototype = {
 	},
 
 	getCode: function() {
-		return this._statusCode;
+		return this._code;
 	},
 
 	getType: function() {

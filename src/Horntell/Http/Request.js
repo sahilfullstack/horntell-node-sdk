@@ -47,7 +47,7 @@ Request.prototype = {
 		var self = this;
 
 		REST.get(url, options).on('complete', function(response, raw) {
-			self._requestHandler(response, raw, deferred);
+			self._responseHandler(response, raw, deferred);
 		});
 	},
 
@@ -55,7 +55,7 @@ Request.prototype = {
 		var self = this;
 
 		REST.post(url, options).on('complete', function(response, raw) {
-			self._requestHandler(response, raw, deferred);
+			self._responseHandler(response, raw, deferred);
 		});
 	},
 
@@ -63,7 +63,7 @@ Request.prototype = {
 		var self = this;
 
 		REST.put(url, options).on('complete', function(response, raw) {
-			self._requestHandler(response, raw, deferred);
+			self._responseHandler(response, raw, deferred);
 		});
 	},
 
@@ -71,29 +71,18 @@ Request.prototype = {
 		var self = this;
 
 		REST.del(url, options).on('complete', function(response, raw) {
-			self._requestHandler(response, raw, deferred);
+			self._responseHandler(response, raw, deferred);
 		});
 	},
 
-	_requestHandler: function(response, raw, deferred) {
+	_responseHandler: function(response, raw, deferred) {
 		if(response == null || response.data) {
-			deferred.resolve(this._responseHandler(response, raw));
+			deferred.resolve(Response(raw));
 		} else {
 			deferred.reject(this._errorHandler(response, raw));
 		}
 
 		return deferred.promise;
-	},
-
-	_responseHandler: function(response, raw) {
-
-		if(raw.statusCode == 204) {
-			//When response status code is 204 and null received in response, eg horn created, campaign triggered.
-			return Response(raw);
-		} else {
-			//When data received in response, eg. profile created or updated.
-			return Response(raw);
-		}
 	},
 
 	_errorHandler: function(response, raw) {
