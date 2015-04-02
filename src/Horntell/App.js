@@ -20,7 +20,7 @@ App.prototype = {
 		this.setSecret(secret);
 	},
 
-	hash_hmac: function(uid) {
+	hash: function(uid) {
 		return crypto.createHmac('sha256', this.getSecret()).update(uid).digest('hex');
 	},
 
