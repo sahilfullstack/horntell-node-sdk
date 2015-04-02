@@ -1,5 +1,7 @@
 'use strict';
 
+var crypto = require('crypto');
+
 function App() {
 
 	if( ! (this instanceof App))
@@ -16,6 +18,10 @@ App.prototype = {
 	init: function(key, secret) {
 		this.setKey(key);
 		this.setSecret(secret);
+	},
+
+	hash_hmac: function(uid) {
+		return crypto.createHmac('sha256', this.getSecret()).update(uid).digest('hex');
 	},
 
 	setBase: function(base) {
