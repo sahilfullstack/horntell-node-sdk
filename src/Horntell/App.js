@@ -16,34 +16,34 @@ function App() {
 App.prototype = {
 
 	init: function(key, secret) {
-		this.setKey(key);
-		this.setSecret(secret);
+		this.setKey(key.toString());
+		this.setSecret(secret.toString());
 	},
 
 	hash_hmac: function(uid) {
-		return crypto.createHmac('sha256', this.getSecret()).update(uid).digest('hex');
+		return crypto.createHmac('sha256', this.getSecret()).update(uid.toString()).digest('hex');
 	},
 
 	setBase: function(base) {
 		if(base) {
-			this._setAppField('base', base);
+			this._setAppField('base', base.toString());
 		}
 	},
 
 	setVersion: function(version) {
 		if(version) {
-			this._setAppField('version', version);
+			this._setAppField('version', version.toString());
 		}
 	},
 
 	setKey: function(key) {
 		if(key)
-			this._setAppField('key', key);
+			this._setAppField('key', key.toString());
 	},
 
 	setSecret: function(secret) {
 		if(secret)
-			this._setAppField('secret', secret);
+			this._setAppField('secret', secret.toString());
 	},
 
 	getBase: function() {
