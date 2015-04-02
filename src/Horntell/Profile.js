@@ -16,7 +16,7 @@ Profile.prototype = {
 	 */
 
 	find : function(uid, callback) {
-		return this._request.send('GET', '/profiles/' + uid.toString(), null, callback);
+		return this._request.send('GET', '/profiles/' + uid, null, callback);
 	},
 
 	/**
@@ -39,7 +39,7 @@ Profile.prototype = {
 	 */
 
 	update: function(uid, profile, callback) {
-		return this._request.send('PUT', '/profiles/' + uid.toString(), profile, callback);
+		return this._request.send('PUT', '/profiles/' + uid, profile, callback);
 	},
 
 	/**
@@ -50,7 +50,7 @@ Profile.prototype = {
 	 */
 
 	delete: function(uid, callback) {
-		return this._request.send('DELETE', '/profiles/' + uid.toString(), null, callback);
+		return this._request.send('DELETE', '/profiles/' + uid, null, callback);
 	}
 }
 
