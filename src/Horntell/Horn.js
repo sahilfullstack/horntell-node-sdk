@@ -17,7 +17,7 @@ Horn.prototype = {
 	 */
 
 	toProfile: function(uid, horn, callback) {
-		return this._request.send('POST', '/profiles/' + uid + '/horns', horn, callback);
+		return this._request.send('POST', '/profiles/' + uid.toString() + '/horns', horn, callback);
 	},
 
 	/**
