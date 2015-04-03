@@ -16,8 +16,10 @@ Campaign.prototype = {
 	 * @param  function callback
 	 */
 
-	toProfile: function(uid, campaignId, callback) {
-		return this._request.send('POST', '/profiles/' + uid + '/campaigns/' + campaignId, null, callback);
+	toProfile: function(uid, campaignId, meta, callback) {
+		if(meta === undefined || meta == null) meta = {};
+
+		return this._request.send('POST', '/profiles/' + uid + '/campaigns/' + campaignId, {meta: meta}, callback);
 	},
 
 	/**
@@ -28,9 +30,12 @@ Campaign.prototype = {
 	 * @param  function callback
 	 */
 
-	toProfiles: function(profiles, campaignId, callback) {
+	toProfiles: function(profiles, campaignId, meta, callback) {
+		if(meta === undefined || meta == null) meta = {};
+
 		var data = {
-			profile_uids: profiles
+			profile_uids: profiles,
+			meta: meta
 		};
 
 		return this._request.send('POST', '/profiles/campaigns/' + campaignId, data, callback);
