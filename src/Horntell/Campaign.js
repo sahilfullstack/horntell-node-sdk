@@ -17,6 +17,8 @@ Campaign.prototype = {
 	 */
 
 	toProfile: function(uid, campaignId, meta, callback) {
+		if(meta === undefined || meta === null) meta = {};
+
 		return this._request.send('POST', '/profiles/' + uid + '/campaigns/' + campaignId, {meta: meta}, callback);
 	},
 
@@ -29,6 +31,8 @@ Campaign.prototype = {
 	 */
 
 	toProfiles: function(profiles, campaignId, meta, callback) {
+		if(meta === undefined || meta === null) meta = {};
+
 		var data = {
 			profile_uids: profiles,
 			meta: meta
