@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "bluebird": "^2.9.6",
-    "restler": "3.2.2"
+    "restler": "3.2.2",
+    "crypto": "0.0.3"
   }
 }
