@@ -14,7 +14,7 @@ You can install the SDK using NPM. Add this to your `package.json` file.
 ```json
 {
 	"dependencies": {
-		"horntell": "0.2.x"
+		"horntell": "0.3.x"
 	}
 }
 ```
